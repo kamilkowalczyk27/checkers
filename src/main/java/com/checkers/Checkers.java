@@ -4,7 +4,6 @@ import com.checkers.logic.Board;
 import com.checkers.logic.FigureColor;
 import com.checkers.logic.Pawn;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -46,6 +45,8 @@ public class Checkers extends Application {
 
         Board board = new Board();
         board.init();
+        Pawn pawn = new Pawn(FigureColor.WHITE);
+        pawn.getImage(FigureColor.WHITE);
 
         Game game = new Game(board, grid);
 
