@@ -17,22 +17,18 @@ public class Queen implements Figure {
 
     @Override
     public ImageView getImage(FigureColor color) {
-
-        ImageView queenImage = null;
         if(color == FigureColor.WHITE) {
             Image whiteQueen = new Image("file:src/main/resources/whiteQueen.png");
             ImageView whiteQ = new ImageView(whiteQueen);
             whiteQ.setFitHeight(90);
             whiteQ.setFitWidth(90);
-            queenImage = whiteQ;
-            return queenImage;
+            return whiteQ;
         } else {
             Image blackQueen = new Image("file:src/main/resources/blackQueen.png");
             ImageView blackQ = new ImageView(blackQueen);
-            queenImage = blackQ;
             blackQ.setFitHeight(90);
             blackQ.setFitWidth(90);
-            return queenImage;
+            return blackQ;
         }
     }
 

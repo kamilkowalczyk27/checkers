@@ -15,23 +15,19 @@ public class Pawn implements Figure {
         return color;
     }
 
-    @Override
     public ImageView getImage(FigureColor color){
-        ImageView pawnImage = null;
         if(color == FigureColor.WHITE){
             Image whitePawn = new Image("file:src/main/resources/whitePawn.png");
             ImageView whiteP = new ImageView(whitePawn);
             whiteP.setFitHeight(90);
             whiteP.setFitWidth(90);
-            pawnImage = whiteP;
-            return pawnImage;
+            return whiteP;
         } else {
             Image blackPawn = new Image("file:src/main/resources/blackPawn.png");
             ImageView blackP = new ImageView(blackPawn);
             blackP.setFitHeight(90);
             blackP.setFitWidth(90);
-            pawnImage = blackP;
-            return pawnImage;
+            return blackP;
         }
     }
 
