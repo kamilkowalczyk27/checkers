@@ -43,6 +43,12 @@ public class Checkers extends Application {
         grid.setVgap(0);
         grid.setAlignment(Pos.CENTER);
 
+        grid.setOnMouseClicked(event -> {
+            double x =  event.getX();
+            double y =  event.getY();
+            System.out.println(x + " " + y);
+                });
+
         Board board = new Board();
         board.init();
         Pawn pawn = new Pawn(FigureColor.WHITE);
