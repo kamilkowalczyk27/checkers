@@ -1,8 +1,8 @@
 package com.checkers.logic;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,11 +58,13 @@ public class Board {
                 if(getFigure(j, i) instanceof Pawn){
                     if(getFigure(j, i).getColor().equals(FigureColor.WHITE)){
                         gridPane.add(pawn.getImage(getFigure(j, i).getColor()),j, i);
+                        gridPane.setPadding(new Insets(25,0,30,10));
                         gridPane.setHgap(0);
                         gridPane.setVgap(0);
                         gridPane.setAlignment(Pos.CENTER);
                     }else{
-                        gridPane.add(pawn.getImage(getFigure(j, i).getColor()), j, i);
+                        gridPane.add(pawn.getImage(getFigure(j, i).getColor()),j, i);
+                        gridPane.setPadding(new Insets(25,0,30,10));
                         gridPane.setHgap(0);
                         gridPane.setVgap(0);
                         gridPane.setAlignment(Pos.CENTER);

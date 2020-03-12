@@ -44,17 +44,17 @@ public class Checkers extends Application {
         grid.setAlignment(Pos.CENTER);
 
         grid.setOnMouseClicked(event -> {
-            double x =  event.getX();
-            double y =  event.getY();
+            int x = (int) event.getX()/100;
+            int y = (int) event.getY()/100;
             System.out.println(x + " " + y);
                 });
 
         Board board = new Board();
         board.init();
-        Pawn pawn = new Pawn(FigureColor.WHITE);
-        pawn.getImage(FigureColor.WHITE);
-        Pawn pawn1 = new Pawn(FigureColor.BLACK);
-        pawn1.getImage(FigureColor.BLACK);
+        Pawn pawnWhite = new Pawn(FigureColor.WHITE);
+        pawnWhite.getImage(FigureColor.WHITE);
+        Pawn pawnBlack = new Pawn(FigureColor.BLACK);
+        pawnBlack.getImage(FigureColor.BLACK);
 
 
         Game game = new Game(board, grid);
