@@ -53,8 +53,12 @@ public class Checkers extends Application {
         board.init();
         Pawn pawn = new Pawn(FigureColor.WHITE);
         pawn.getImage(FigureColor.WHITE);
+        Pawn pawn1 = new Pawn(FigureColor.BLACK);
+        pawn1.getImage(FigureColor.BLACK);
+
 
         Game game = new Game(board, grid);
+        game.playGame();
 
         primaryStage.setTitle("Warcaby");
         primaryStage.setScene(scene);

@@ -1,5 +1,8 @@
 package com.checkers.logic;
 
+import javafx.geometry.Pos;
+import javafx.scene.layout.GridPane;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +49,33 @@ public class Board {
         setFigure(4, 5, new Pawn(FigureColor.WHITE));
         setFigure(6, 5, new Pawn(FigureColor.WHITE));
     }
+
+    public void showOnGrind(GridPane gridPane){
+        gridPane.getChildren().clear();
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                Pawn pawn = new Pawn(getFigure(j, i).getColor());
+                if(getFigure(j, i) instanceof Pawn){
+                    if(getFigure(j, i).getColor().equals(FigureColor.WHITE)){
+                        gridPane.add(pawn.getImage(getFigure(j, i).getColor()),j, i);
+                        gridPane.setHgap(0);
+                        gridPane.setVgap(0);
+                        gridPane.setAlignment(Pos.CENTER);
+                    }else{
+                        gridPane.add(pawn.getImage(getFigure(j, i).getColor()), j, i);
+                        gridPane.setHgap(0);
+                        gridPane.setVgap(0);
+                        gridPane.setAlignment(Pos.CENTER);
+                    }
+                }
+            }
+        }
+        gridPane.setHgap(0);
+        gridPane.setVgap(0);
+        gridPane.setAlignment(Pos.CENTER);
+    }
+
+
 
     @Override
     public String toString() {
