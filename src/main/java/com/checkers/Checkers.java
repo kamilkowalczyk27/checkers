@@ -43,11 +43,6 @@ public class Checkers extends Application {
         grid.setVgap(0);
         grid.setAlignment(Pos.CENTER);
 
-        grid.setOnMouseClicked(event -> {
-            int x = (int) event.getX()/100;
-            int y = (int) event.getY()/100;
-            System.out.println(x + " " + y);
-                });
 
         Board board = new Board();
         board.init();
@@ -59,8 +54,14 @@ public class Checkers extends Application {
 
         Game game = new Game(board, grid);
         game.playGame();
+        grid.setOnMouseClicked(event -> {
+            int x = (int) event.getX()/100;
+            int y = (int) event.getY()/100;
+            System.out.println(x + " " + y);
+            game.doClick(x,y);
+        });
 
-        primaryStage.setTitle("Warcaby");
+        primaryStage.setTitle("Checkers");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
