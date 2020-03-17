@@ -3,6 +3,7 @@ package com.checkers;
 import com.checkers.logic.Board;
 import com.checkers.logic.FigureColor;
 import com.checkers.logic.Pawn;
+import com.checkers.logic.Queen;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -43,17 +44,21 @@ public class Checkers extends Application {
         grid.setVgap(0);
         grid.setAlignment(Pos.CENTER);
 
-
         Board board = new Board();
         board.init();
+
         Pawn pawnWhite = new Pawn(FigureColor.WHITE);
         pawnWhite.getImage(FigureColor.WHITE);
         Pawn pawnBlack = new Pawn(FigureColor.BLACK);
         pawnBlack.getImage(FigureColor.BLACK);
-
+        Queen blackQueen = new Queen(FigureColor.BLACK);
+        blackQueen.getImage(FigureColor.BLACK);
+        Queen whiteQueen = new Queen(FigureColor.WHITE);
+        whiteQueen.getImage(FigureColor.WHITE);
 
         Game game = new Game(board, grid);
         game.playGame();
+
         grid.setOnMouseClicked(event -> {
             int x = (int) event.getX()/100;
             int y = (int) event.getY()/100;

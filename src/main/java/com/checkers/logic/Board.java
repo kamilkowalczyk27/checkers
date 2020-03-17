@@ -3,6 +3,8 @@ package com.checkers.logic;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,7 @@ public class Board {
             setFigure(col1, row1, new None());
             result = true;
         } else if (moveIsValidWithHit(col1, row1, col2, row2, color)) {
-            removeOponentFigure(col1, row1, col2, row2);
+            removeOpponentFigure(col1, row1, col2, row2);
             Figure figure = getFigure(col1, row1);
             setFigure(col2, row2, figure);
             setFigure(col1, row1, new None());
@@ -40,12 +42,34 @@ public class Board {
         return result;
     }
 
-    private void removeOponentFigure(int col1, int row1, int col2, int row2) {
-
+    private void removeOpponentFigure(int col1, int row1, int col2, int row2) {
+        if(Math.abs(col1 - col2) == 2 && Math.abs(row1 - row2) == 2){
+            setFigure((col1 + col2)/2, (row1 + row2)/2, new None());
+        }
     }
 
     private boolean moveIsValidWithHit(int col1, int row1, int col2, int row2, FigureColor color) {
-        return false;
+        boolean result = true;
+        if (!isFieldEmpty(col2, row2))
+            result = false;
+        if (!isMoveDiagonalWithHit(col1, row1, col2, row2))
+            result = false;
+        if (!isDirectionValidWithHit(color, row1, row2))
+            result = false;
+        return result;
+    }
+
+    private boolean isDirectionValidWithHit(FigureColor color, int row1, int row2) {
+        if (color == FigureColor.WHITE) {
+            return row2 < row1 || row2 > row1;
+        } else {
+            return row2 > row1 || row2 < row1;
+        }
+    }
+
+    private boolean isMoveDiagonalWithHit(int col1, int row1, int col2, int row2) {
+        return Math.abs(col1 - col2) == 2 && Math.abs(row1 - row2) == 2;
+
     }
 
     private boolean moveIsValid(int col1, int row1, int col2, int row2, FigureColor color) {
@@ -73,7 +97,22 @@ public class Board {
 
     private boolean isFieldEmpty(int x, int y) {
         return getFigure(x, y) instanceof None;
+    }
 
+    public void transformPawnToQueen(FigureColor color,int col2, int row2){
+        if(color == FigureColor.WHITE) {
+            if (col2 < 8 && row2 == 0) {
+                setFigure( col2,row2, new Queen(FigureColor.WHITE));
+            }
+        }else{
+            if (col2 < 8 && row2 == 7) {
+                setFigure( col2, row2, new Queen(FigureColor.BLACK));
+            }
+        }
+    }
+
+    private boolean isMoveDiagonalQueen(int col1, int row1, int col2, int row2){
+        return Math.abs(col1 - col2) <= 6 && Math.abs(row1 - row2) <= 6;
     }
 
     public void init() {
@@ -131,7 +170,6 @@ public class Board {
         gridPane.setAlignment(Pos.CENTER);
     }
 
-
     @Override
     public String toString() {
         String s = "|-----------------------|\n";
@@ -141,8 +179,14 @@ public class Board {
         return s;
     }
 
-    public void showBorder(GridPane gridPane, int x, int y) {
+    //public void showBorder(GridPane gridPane, int x, int y) {
         //wyświetlić ramkę wokół pola x, y na gridPane
-    }
+
+    //public void showBoarder(){
+     //   Rectangle rect = new Rectangle(100,100);
+      //  rect.setOnMouseClicked(mouseEvent->{
+      //      rect.setFill(Color.RED);
+      //  });
+    //}
 }
 

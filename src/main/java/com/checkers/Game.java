@@ -1,8 +1,11 @@
 package com.checkers;
 
 import com.checkers.logic.Board;
+import com.checkers.logic.Figure;
 import com.checkers.logic.FigureColor;
 import javafx.scene.layout.GridPane;
+
+import java.awt.*;
 
 public class Game {
     private Board board;
@@ -18,15 +21,16 @@ public class Game {
 
     public void playGame() {
         board.init();
-        board.showOnGrind(gridPane);
+        board.transformPawnToQueen(FigureColor.WHITE, oldX,oldY);
+
+
     }
 
     public void doClick(int x, int y) {
         if (oldX == -1) {
-            if(board.getFigure(x,y).getColor()==whoseMove) {
+            if(board.getFigure(x,y).getColor() == whoseMove) {
                 oldX = x;
                 oldY = y;
-                board.showBorder(gridPane, x, y);
             }
         } else {
             if(board.move(oldX, oldY, x, y, whoseMove)){
@@ -35,8 +39,8 @@ public class Game {
             oldX = -1;
             oldY = -1;
             board.showOnGrind(gridPane);
+            
         }
-
     }
 
     private FigureColor getOpositeColor(FigureColor whoseMove) {
