@@ -1,11 +1,8 @@
 package com.checkers;
 
 import com.checkers.logic.Board;
-import com.checkers.logic.Figure;
 import com.checkers.logic.FigureColor;
 import javafx.scene.layout.GridPane;
-
-import java.awt.*;
 
 public class Game {
     private Board board;
@@ -21,9 +18,7 @@ public class Game {
 
     public void playGame() {
         board.init();
-        board.transformPawnToQueen(FigureColor.WHITE, oldX,oldY);
-
-
+        board.showOnGrind(gridPane);
     }
 
     public void doClick(int x, int y) {
@@ -31,6 +26,7 @@ public class Game {
             if(board.getFigure(x,y).getColor() == whoseMove) {
                 oldX = x;
                 oldY = y;
+                board.showBorder(gridPane,x,y);
             }
         } else {
             if(board.move(oldX, oldY, x, y, whoseMove)){

@@ -16,20 +16,17 @@ public class Queen implements Figure {
     }
 
     @Override
-    public ImageView getImage(FigureColor color) {
-        if(color == FigureColor.WHITE) {
-            Image whiteQueen = new Image("file:src/main/resources/whiteQueen.png");
-            ImageView whiteQ = new ImageView(whiteQueen);
-            whiteQ.setFitHeight(90);
-            whiteQ.setFitWidth(90);
-            return whiteQ;
+    public ImageView getImage() {
+        Image image;
+        if (color == FigureColor.WHITE) {
+            image = new Image("file:src/main/resources/whiteQueen.png");
         } else {
-            Image blackQueen = new Image("file:src/main/resources/blackQueen.png");
-            ImageView blackQ = new ImageView(blackQueen);
-            blackQ.setFitHeight(90);
-            blackQ.setFitWidth(90);
-            return blackQ;
+            image = new Image("file:src/main/resources/blackQueen.png");
         }
+        ImageView whiteQ = new ImageView(image);
+        whiteQ.setFitHeight(90);
+        whiteQ.setFitWidth(90);
+        return whiteQ;
     }
 
     @Override
@@ -38,8 +35,8 @@ public class Queen implements Figure {
     }
 
     private String colorSymbol() {
-        if(color == FigureColor.WHITE) return "w";
-        if(color == FigureColor.BLACK) return "b";
+        if (color == FigureColor.WHITE) return "w";
+        if (color == FigureColor.BLACK) return "b";
         return " ";
     }
 }

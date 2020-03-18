@@ -9,9 +9,8 @@ public class None implements Figure {
     }
 
     @Override
-    public ImageView getImage(FigureColor color) {
-        ImageView noneImage = null;
-        return noneImage;
+    public ImageView getImage() {
+        return null;
     }
 
     @Override

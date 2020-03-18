@@ -27,7 +27,7 @@ public class Board {
 
     public boolean move(int col1, int row1, int col2, int row2, FigureColor color) {
         boolean result = false;
-        if (moveIsValid(col1, row1, col2, row2,color)) {
+        if (moveIsValid(col1, row1, col2, row2, color)) {
             Figure figure = getFigure(col1, row1);
             setFigure(col2, row2, figure);
             setFigure(col1, row1, new None());
@@ -39,12 +39,14 @@ public class Board {
             setFigure(col1, row1, new None());
             result = true;
         }
+        if (result)
+            transformPawnToQueen(color, col2, row2);
         return result;
     }
 
     private void removeOpponentFigure(int col1, int row1, int col2, int row2) {
-        if(Math.abs(col1 - col2) == 2 && Math.abs(row1 - row2) == 2){
-            setFigure((col1 + col2)/2, (row1 + row2)/2, new None());
+        if (Math.abs(col1 - col2) == 2 && Math.abs(row1 - row2) == 2) {
+            setFigure((col1 + col2) / 2, (row1 + row2) / 2, new None());
         }
     }
 
@@ -52,22 +54,25 @@ public class Board {
         boolean result = true;
         if (!isFieldEmpty(col2, row2))
             result = false;
-        if (!isMoveDiagonalWithHit(col1, row1, col2, row2))
+        if (!isMoveDiagonalTwoFields(col1, row1, col2, row2))
             result = false;
-        if (!isDirectionValidWithHit(color, row1, row2))
+        if (!isDirectionValid(color, row1, row2))
+            result = false;
+        if (!isOpponentBetween(color, col1, row1, col2, row2))
             result = false;
         return result;
     }
 
-    private boolean isDirectionValidWithHit(FigureColor color, int row1, int row2) {
-        if (color == FigureColor.WHITE) {
-            return row2 < row1 || row2 > row1;
-        } else {
-            return row2 > row1 || row2 < row1;
-        }
+    private boolean isOpponentBetween(FigureColor color, int col1, int row1, int col2, int row2) {
+        int x = (col1 + col2) / 2;
+        int y = (row1 + row2) / 2;
+        boolean result = true;
+        if (getFigure(x, y) instanceof None) result = false;
+        if (getFigure(x, y).getColor() == color) result = false;
+        return result;
     }
 
-    private boolean isMoveDiagonalWithHit(int col1, int row1, int col2, int row2) {
+    private boolean isMoveDiagonalTwoFields(int col1, int row1, int col2, int row2) {
         return Math.abs(col1 - col2) == 2 && Math.abs(row1 - row2) == 2;
 
     }
@@ -99,19 +104,22 @@ public class Board {
         return getFigure(x, y) instanceof None;
     }
 
-    public void transformPawnToQueen(FigureColor color,int col2, int row2){
-        if(color == FigureColor.WHITE) {
+    public void transformPawnToQueen(FigureColor color, int col2, int row2) {
+        if (color == FigureColor.WHITE) {
             if (col2 < 8 && row2 == 0) {
-                setFigure( col2,row2, new Queen(FigureColor.WHITE));
+                setFigure(col2, row2, new Queen(FigureColor.WHITE));
+                System.out.println("Kamil");
             }
-        }else{
+        } else {
             if (col2 < 8 && row2 == 7) {
-                setFigure( col2, row2, new Queen(FigureColor.BLACK));
+                setFigure(col2, row2, new Queen(FigureColor.BLACK));
+                System.out.println("kam");
             }
         }
+        System.out.println("K" + col2 + "," + row2);
     }
 
-    private boolean isMoveDiagonalQueen(int col1, int row1, int col2, int row2){
+    private boolean isMoveDiagonalQueen(int col1, int row1, int col2, int row2) {
         return Math.abs(col1 - col2) <= 6 && Math.abs(row1 - row2) <= 6;
     }
 
@@ -147,21 +155,13 @@ public class Board {
         gridPane.getChildren().clear();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                Pawn pawn = new Pawn(getFigure(j, i).getColor());
-                if (getFigure(j, i) instanceof Pawn) {
-                    if (getFigure(j, i).getColor().equals(FigureColor.WHITE)) {
-                        gridPane.add(pawn.getImage(getFigure(j, i).getColor()), j, i);
-                        gridPane.setPadding(new Insets(25, 0, 30, 10));
-                        gridPane.setHgap(0);
-                        gridPane.setVgap(0);
-                        gridPane.setAlignment(Pos.CENTER);
-                    } else {
-                        gridPane.add(pawn.getImage(getFigure(j, i).getColor()), j, i);
-                        gridPane.setPadding(new Insets(25, 0, 30, 10));
-                        gridPane.setHgap(0);
-                        gridPane.setVgap(0);
-                        gridPane.setAlignment(Pos.CENTER);
-                    }
+                Figure figure = getFigure(j, i);
+                if (!(figure instanceof None)) {
+                    gridPane.add(figure.getImage(),j, i);
+                    gridPane.setPadding(new Insets(25, 0, 30, 10));
+                    gridPane.setHgap(0);
+                    gridPane.setVgap(0);
+                    gridPane.setAlignment(Pos.CENTER);
                 }
             }
         }
@@ -179,14 +179,10 @@ public class Board {
         return s;
     }
 
-    //public void showBorder(GridPane gridPane, int x, int y) {
-        //wyświetlić ramkę wokół pola x, y na gridPane
-
-    //public void showBoarder(){
-     //   Rectangle rect = new Rectangle(100,100);
-      //  rect.setOnMouseClicked(mouseEvent->{
-      //      rect.setFill(Color.RED);
-      //  });
-    //}
+    public void showBorder(GridPane gridPane, int x, int y) {
+        Rectangle rect = new Rectangle(100, 100);
+        rect.setFill(Color.RED);
+        gridPane.add(rect, x, y);
+    }
 }
 

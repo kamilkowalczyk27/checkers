@@ -15,20 +15,17 @@ public class Pawn implements Figure {
         return color;
     }
 
-    public ImageView getImage(FigureColor color){
-        if(color == FigureColor.WHITE){
-            Image whitePawn = new Image("file:src/main/resources/whitePawn.png");
-            ImageView whiteP = new ImageView(whitePawn);
-            whiteP.setFitHeight(90);
-            whiteP.setFitWidth(90);
-            return whiteP;
+    public ImageView getImage() {
+        Image image;
+        if (color == FigureColor.WHITE) {
+            image = new Image("file:src/main/resources/whitePawn.png");
         } else {
-            Image blackPawn = new Image("file:src/main/resources/blackPawn.png");
-            ImageView blackP = new ImageView(blackPawn);
-            blackP.setFitHeight(90);
-            blackP.setFitWidth(90);
-            return blackP;
+            image = new Image("file:src/main/resources/blackPawn.png");
         }
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(90);
+        imageView.setFitWidth(90);
+        return imageView;
     }
 
     @Override
@@ -37,8 +34,8 @@ public class Pawn implements Figure {
     }
 
     private String colorSymbol() {
-        if(color == FigureColor.WHITE) return "w";
-        if(color == FigureColor.BLACK) return "b";
+        if (color == FigureColor.WHITE) return "w";
+        if (color == FigureColor.BLACK) return "b";
         return " ";
     }
 }

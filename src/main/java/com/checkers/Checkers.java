@@ -47,15 +47,6 @@ public class Checkers extends Application {
         Board board = new Board();
         board.init();
 
-        Pawn pawnWhite = new Pawn(FigureColor.WHITE);
-        pawnWhite.getImage(FigureColor.WHITE);
-        Pawn pawnBlack = new Pawn(FigureColor.BLACK);
-        pawnBlack.getImage(FigureColor.BLACK);
-        Queen blackQueen = new Queen(FigureColor.BLACK);
-        blackQueen.getImage(FigureColor.BLACK);
-        Queen whiteQueen = new Queen(FigureColor.WHITE);
-        whiteQueen.getImage(FigureColor.WHITE);
-
         Game game = new Game(board, grid);
         game.playGame();
 
