@@ -1,9 +1,6 @@
 package com.checkers;
 
 import com.checkers.logic.Board;
-import com.checkers.logic.FigureColor;
-import com.checkers.logic.Pawn;
-import com.checkers.logic.Queen;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

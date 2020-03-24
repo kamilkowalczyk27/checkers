@@ -30,7 +30,8 @@ public class Game {
             }
         } else {
             if(board.move(oldX, oldY, x, y, whoseMove)){
-                whoseMove = getOpositeColor(whoseMove);
+                whoseMove = getOppositeColor(whoseMove);
+                board.gameOver();
             }
             oldX = -1;
             oldY = -1;
@@ -38,8 +39,7 @@ public class Game {
             
         }
     }
-
-    private FigureColor getOpositeColor(FigureColor whoseMove) {
+    private FigureColor getOppositeColor(FigureColor whoseMove) {
         return whoseMove == FigureColor.WHITE ? FigureColor.BLACK : FigureColor.WHITE;
     }
 }
