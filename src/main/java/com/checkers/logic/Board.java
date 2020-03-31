@@ -2,11 +2,10 @@ package com.checkers.logic;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +32,14 @@ public class Board {
             setFigure(col2, row2, figure);
             setFigure(col1, row1, new None());
             result = true;
-        } else if (moveIsValidWithHit(col1, row1, col2, row2, color)) {
+        } else if (isMoveOfPawnValidWithHit(col1, row1, col2, row2, color)) {
             removeOpponentFigure(col1, row1, col2, row2);
+            Figure figure = getFigure(col1, row1);
+            setFigure(col2, row2, figure);
+            setFigure(col1, row1, new None());
+            result = true;
+        }else if(isMoveOfQueenValidWithHit(col1,row1,col2,row2,color)){
+            removeOpponentOfQueen(col1, row1, col2, row2);
             Figure figure = getFigure(col1, row1);
             setFigure(col2, row2, figure);
             setFigure(col1, row1, new None());
@@ -45,13 +50,19 @@ public class Board {
         return result;
     }
 
+    private void removeOpponentOfQueen(int col1, int row1, int col2, int row2) {
+        int dx = (col2 > col1) ? 1 : -1;
+        int dy = (row2 > row1) ? 1 : -1;
+        setFigure(col2 - dx, row2 - dy, new None());
+    }
+
     private void removeOpponentFigure(int col1, int row1, int col2, int row2) {
         if (Math.abs(col1 - col2) == 2 && Math.abs(row1 - row2) == 2) {
             setFigure((col1 + col2) / 2, (row1 + row2) / 2, new None());
         }
     }
 
-    private boolean moveIsValidWithHit(int col1, int row1, int col2, int row2, FigureColor color) {
+    private boolean isMoveOfPawnValidWithHit(int col1, int row1, int col2, int row2, FigureColor color) {
         boolean result = true;
         if (!isFieldEmpty(col2, row2))
             result = false;
@@ -59,18 +70,43 @@ public class Board {
             result = false;
         if (!isDirectionValid(color, row1, row2))
             result = false;
-        if (!isOpponentBetween(color, col1, row1, col2, row2))
+        if (!isOpponentBetweenPawns(color, col1, row1, col2, row2))
             result = false;
         return result;
     }
 
-    private boolean isOpponentBetween(FigureColor color, int col1, int row1, int col2, int row2) {
-        int x = (col1 + col2) / 2;
-        int y = (row1 + row2) / 2;
+    private boolean isMoveOfQueenValidWithHit(int col1, int row1, int col2, int row2, FigureColor color) {
         boolean result = true;
-        if (getFigure(x, y) instanceof None) result = false;
-        if (getFigure(x, y).getColor() == color) result = false;
+        if (!isFieldEmpty(col2, row2))
+            result = false;
+        if (!isMoveDiagonalQueen(col1, row1, col2, row2))
+            result = false;
+        if (!isOpponentBetweenQueens(color, col1, row1, col2, row2))
+            result = false;
         return result;
+    }
+
+    private boolean isOpponentBetweenQueens(FigureColor color, int col1, int row1, int col2, int row2) {
+        int dx = (col2 > col1) ? 1 : -1;
+        int dy = (row2 > row1) ? 1 : -1;
+        int steps = Math.abs(col2 - col1);
+        boolean result = true;
+        for (int step = 1; step < steps - 1; step++) {
+            if (!(getFigure(col1 + step * dx, row1 + step * dy) instanceof None))
+                result = false;
+        }
+        result = result && (getFigure(col2 - dx, row2 - dy).getColor() == oppositeColor(color));
+        return result;
+    }
+
+    private boolean isOpponentBetweenPawns(FigureColor color, int col1, int row1, int col2, int row2) {
+        int x = (col2 + col1) / 2;
+        int y = (row2 + row1) / 2;
+        return getFigure(x, y).getColor() == oppositeColor(color);
+    }
+
+    private FigureColor oppositeColor(FigureColor color) {
+        return (color == FigureColor.WHITE) ? FigureColor.BLACK : FigureColor.WHITE;
     }
 
     private boolean isMoveDiagonalTwoFields(int col1, int row1, int col2, int row2) {
@@ -79,9 +115,9 @@ public class Board {
     }
 
     private boolean moveIsValid(int col1, int row1, int col2, int row2, FigureColor color) {
-        if(getFigure(col1, row1) instanceof Queen){
-            return isMoveOfQueenValid(col1,row1,col2,row2);
-        }else {
+        if (getFigure(col1, row1) instanceof Queen) {
+            return isMoveOfQueenValid(col1, row1, col2, row2);
+        } else {
             return isMoveOfPawnValid(col1, row1, col2, row2, color);
         }
     }
@@ -215,33 +251,25 @@ public class Board {
         rect.setStrokeWidth(10);
     }
 
-
-    public void gameOver() {
+    public void gameOver(GridPane gridPane) {
         int blackCount = countFigures(FigureColor.BLACK);
         int whiteCount = countFigures(FigureColor.WHITE);
-        if(blackCount == 0 || whiteCount == 0){
+        if (blackCount == 0 || whiteCount == 0) {
             System.out.println("Game Over!");
-            //wyświetl komunikat
-            Text t = new Text();
-            t.setText("Game Over!");
-            t.setFont(new Font(20));
-            t.setFill(Color.BLACK);
+            Label label = new Label("Game Over!");
+            label.setTextFill(Color.RED);
+            gridPane.add(label, 4, 4);
         }
     }
 
     private int countFigures(FigureColor color) {
         int result = 0;
-        for(int col = 0; col < 8; col++){
-            for(int row=0; row <8; row++){
-                if(getFigure(col, row).getColor() == color)
+        for (int col = 0; col < 8; col++) {
+            for (int row = 0; row < 8; row++) {
+                if (getFigure(col, row).getColor() == color)
                     result++;
             }
         }
         return result;
     }
-
-
 }
-
-
-

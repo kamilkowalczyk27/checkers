@@ -48,10 +48,10 @@ public class Checkers extends Application {
         game.playGame();
 
         grid.setOnMouseClicked(event -> {
-            int x = (int) event.getX()/100;
-            int y = (int) event.getY()/100;
+            int x = (int) event.getX() / 100;
+            int y = (int) event.getY() / 100;
             System.out.println(x + " " + y);
-            game.doClick(x,y);
+            game.doClick(x, y);
         });
 
         primaryStage.setTitle("Checkers");
@@ -59,4 +59,3 @@ public class Checkers extends Application {
         primaryStage.show();
     }
 }
-

@@ -39,4 +39,3 @@ public class Pawn implements Figure {
         return " ";
     }
 }
-

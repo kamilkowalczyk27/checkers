@@ -6,4 +6,3 @@ public interface Figure {
     FigureColor getColor();
     ImageView getImage();
 }
-

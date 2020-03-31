@@ -31,7 +31,7 @@ public class Game {
         } else {
             if(board.move(oldX, oldY, x, y, whoseMove)){
                 whoseMove = getOppositeColor(whoseMove);
-                board.gameOver();
+                board.gameOver(gridPane);
             }
             oldX = -1;
             oldY = -1;
